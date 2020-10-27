@@ -1,0 +1,71 @@
+version: "3.7"
+
+networks:
+  app-tier:
+    driver: bridge
+
+volumes:
+  mysqldata:
+    driver: "local"
+  redisdata:
+    driver: "local"
+
+services:
+  phpfpm:
+    container_name: magento-php-course-2020
+    image: modestcoders/php:7.4-fpm
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.17.0.1"
+      PHP_IDE_CONFIG: "serverName=docker"
+      PHP_MEMORY_LIMIT: "1024M"
+    volumes:
+      - .:/var/www/html:delegated
+    networks:
+      - app-tier
+    depends_on:
+      - redis
+  nginx:
+    container_name: magento-nginx-course-2020
+    image: modestcoders/nginx:1.13
+    ports:
+      - 80:8000
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro,delegated
+      - ./docker/conf/nginx:/etc/nginx/conf.d:delegated
+      - .:/var/www/html:delegated
+    networks:
+      - app-tier
+    depends_on:
+      - mysql
+      - phpfpm
+  mysql:
+    container_name: magento-mysql-course-2020
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: magento
+      MYSQL_USER: magento
+      MYSQL_PASSWORD: magento
+    volumes:
+      - mysqldata:/var/lib/mysql:delegated
+      - ./docker/conf/mysql/my.cnf:/etc/my.cnf.d/my.cnf:cached
+    networks:
+      - app-tier
+  redis:
+    container_name: magento-redis-course-2020
+    image: redis:5.0-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data:delegated
+    networks:
+      - app-tier
+  elasticsearch:
+    container_name: magento-elasticsearch-course-2020
+    image: elasticsearch:7.9.3
+    networks:
+      - app-tier
+    depends_on:
+      - phpfpm
