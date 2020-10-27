@@ -28,3 +28,5 @@
 !/config/
 !/config/**
 !/docker-compose.yml
+!/docker
+!/docker/*/
