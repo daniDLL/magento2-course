@@ -9,6 +9,8 @@ volumes:
     driver: "local"
   redisdata:
     driver: "local"
+  sockdata:
+    driver: "local"
 
 services:
   phpfpm:
@@ -18,7 +20,11 @@ services:
       XDEBUG_CONFIG: "remote_host=172.17.0.1"
       PHP_IDE_CONFIG: "serverName=docker"
       PHP_MEMORY_LIMIT: "1024M"
-    volumes:
+    volumes: &appvolumes
+      - sockdata:/sock
+      - ../.composer:/var/www/.composer:delegated
+      - ../.composer:/var/www/html/var/composer_home:delegated
+      - ./docker/conf/nginx/default.conf:/var/www/conf/nginx/default.conf:delegated
       - .:/var/www/html:delegated
     networks:
       - app-tier
@@ -29,10 +35,7 @@ services:
     image: modestcoders/nginx:1.13
     ports:
       - 80:8000
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro,delegated
-      - ./docker/conf/nginx:/etc/nginx/conf.d:delegated
-      - .:/var/www/html:delegated
+    volumes: *appvolumes
     networks:
       - app-tier
     depends_on:
