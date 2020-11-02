@@ -50,7 +50,7 @@ bin/magento setup:install \
 git checkout app/etc/env.php
 ```
 
-### 6. Setting file permissions
+### 6. Setting file permissions (inside the container)
 
 ```
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
