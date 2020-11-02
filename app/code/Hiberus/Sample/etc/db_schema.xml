@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="hiberus_student" resource="default" engine="innodb" comment="Hiberus Student">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="varchar" name="name" length="255"  nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="birth_data" length="32" nullable="true" comment="Age"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="hiberus_teacher" resource="default" engine="innodb" comment="Hiberus Teacher">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="varchar" name="name" length="255"  nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="birth_data" length="32" nullable="true" comment="Age"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="hiberus_teacher_student" resource="default" engine="innodb" comment="Hiberus Teacher/Student">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="int" name="student_id" padding="10" unsigned="true" nullable="false" comment="Student ID"/>
+        <column xsi:type="int" name="teacher_id" padding="10" unsigned="true" nullable="false" comment="Teacher ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="HTS_STUDENT_ID_REF_HS_ENTITY_ID"
+                    table="hiberus_teacher_student" column="student_id"
+                    referenceTable="hiberus_student" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="HTS_TEACHER_ID_REF_HT_ENTITY_ID"
+                    table="hiberus_teacher_student" column="teacher_id"
+                    referenceTable="hiberus_teacher" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="HTS_UNIQUE_INDEX">
+            <column name="student_id"/>
+            <column name="teacher_id"/>
+        </constraint>
+    </table>
+</schema>

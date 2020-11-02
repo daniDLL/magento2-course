@@ -1,0 +1,34 @@
+{
+    "name": "hiberus/sample",
+    "description": "Sample module",
+    "keywords": [
+        "php",
+        "magento",
+        "magento2",
+        "sample",
+        "data model",
+        "persistence"
+    ],
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*"
+    },
+    "version": "0.1.0",
+    "license": [
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Daniel Delgado Llamas",
+            "email": "ddelgado@hiberus.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Hiberus\\Sample\\": ""
+        }
+    }
+}
