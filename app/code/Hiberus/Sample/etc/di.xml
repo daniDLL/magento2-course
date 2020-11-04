@@ -72,4 +72,12 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="hiberus:students:show" xsi:type="object">Hiberus\Sample\Console\Command\ShowStudentsCommand</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
