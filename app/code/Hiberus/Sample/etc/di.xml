@@ -5,6 +5,8 @@
     <preference for="Hiberus\Sample\Api\StudentRepositoryInterface" type="Hiberus\Sample\Model\StudentRepository"/>
     <preference for="Hiberus\Sample\Api\Data\TeacherInterface" type="Hiberus\Sample\Model\Teacher"/>
     <preference for="Hiberus\Sample\Api\TeacherRepositoryInterface" type="Hiberus\Sample\Model\TeacherRepository"/>
+    <preference for="Hiberus\Sample\Api\Data\StudentSearchResultsInterface" type="Hiberus\Sample\Model\StudentSearchResults" />
+    <preference for="Hiberus\Sample\Api\Data\TeacherSearchResultsInterface" type="Hiberus\Sample\Model\TeacherSearchResults" />
 
     <!-- Register the Abstract Repositories -->
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">

@@ -2,7 +2,14 @@
 
 namespace Hiberus\Sample\Model;
 
+use Hiberus\Sample\Api\Data\StudentInterfaceFactory;
+use Hiberus\Sample\Api\Data\StudentSearchResultsInterface;
+use Hiberus\Sample\Model\ResourceModel\Student\Collection;
+use Hiberus\Sample\Model\ResourceModel\Student\CollectionFactory;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Hiberus\Sample\Api\Data;
 use Hiberus\Sample\Api\StudentRepositoryInterface;
@@ -20,21 +27,44 @@ class StudentRepository implements StudentRepositoryInterface
     private $resourceStudent;
 
     /**
-     * @var \Hiberus\Sample\Api\Data\StudentInterfaceFactory
+     * @var StudentInterfaceFactory
      */
     private $studentFactory;
 
     /**
+     * @var CollectionFactory
+     */
+    private $studentCollectionFactory;
+
+    /**
+     * @var Data\StudentSearchResultsInterfaceFactory
+     */
+    private $searchResultsFactory;
+
+    /**
+     * @var CollectionProcessorInterface
+     */
+    private $collectionProcessor;
+
+    /**
      * @param \Hiberus\Sample\Model\ResourceModel\Student $resourceStudent
-     * @param \Hiberus\Sample\Api\Data\StudentInterfaceFactory $studentFactory
+     * @param StudentInterfaceFactory $studentFactory
+     * @param CollectionFactory $studentCollectionFactory
+     * @param Data\StudentSearchResultsInterfaceFactory $searchResultsFactory
+     * @param CollectionProcessorInterface $collectionProcessor
      */
     function __construct(
         ResourceModel\Student $resourceStudent,
-        Data\StudentInterfaceFactory $studentFactory
-    )
-    {
+        StudentInterfaceFactory $studentFactory,
+        CollectionFactory $studentCollectionFactory,
+        Data\StudentSearchResultsInterfaceFactory $searchResultsFactory,
+        CollectionProcessorInterface $collectionProcessor
+    ) {
         $this->resourceStudent = $resourceStudent;
         $this->studentFactory = $studentFactory;
+        $this->studentCollectionFactory = $studentCollectionFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
+        $this->collectionProcessor = $collectionProcessor;
     }
 
     /**
@@ -93,5 +123,27 @@ class StudentRepository implements StudentRepositoryInterface
     public function deleteById($studentId)
     {
         return $this->delete($this->getById($studentId));
+    }
+
+    /**
+     * Retrieve students matching the specified criteria.
+     *
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return StudentSearchResultsInterface
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria)
+    {
+        /** @var Collection $collection */
+        $collection = $this->studentCollectionFactory->create();
+
+        $this->collectionProcessor->process($searchCriteria, $collection);
+
+        /** @var Data\StudentSearchResultsInterface $searchResults */
+        $searchResults = $this->searchResultsFactory->create();
+        $searchResults->setSearchCriteria($searchCriteria);
+        $searchResults->setItems($collection->getItems());
+        $searchResults->setTotalCount($collection->getSize());
+
+        return $searchResults;
     }
 }

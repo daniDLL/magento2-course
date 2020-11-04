@@ -2,7 +2,12 @@
 
 namespace Hiberus\Sample\Model;
 
+use Hiberus\Sample\Api\Data\TeacherSearchResultsInterface;
 use Hiberus\Sample\Api\Data\TeacherInterfaceFactory;
+use Hiberus\Sample\Model\ResourceModel\Teacher\Collection;
+use Hiberus\Sample\Model\ResourceModel\Teacher\CollectionFactory;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Hiberus\Sample\Api\Data;
@@ -25,16 +30,39 @@ class TeacherRepository implements TeacherRepositoryInterface
     private $teacherFactory;
 
     /**
+     * @var CollectionFactory
+     */
+    private $teacherCollectionFactory;
+
+    /**
+     * @var Data\TeacherSearchResultsInterfaceFactory
+     */
+    private $searchResultsFactory;
+
+    /**
+     * @var CollectionProcessorInterface
+     */
+    private $collectionProcessor;
+
+    /**
      * @param \Hiberus\Sample\Model\ResourceModel\Teacher $resourceTeacher
      * @param TeacherInterfaceFactory $teacherFactory
+     * @param CollectionFactory $teacherCollectionFactory
+     * @param Data\TeacherSearchResultsInterfaceFactory $searchResultsFactory
+     * @param CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
         ResourceModel\Teacher $resourceTeacher,
-        TeacherInterfaceFactory $teacherFactory
-    )
-    {
+        TeacherInterfaceFactory $teacherFactory,
+        CollectionFactory $teacherCollectionFactory,
+        Data\TeacherSearchResultsInterfaceFactory $searchResultsFactory,
+        CollectionProcessorInterface $collectionProcessor
+    ) {
         $this->resourceTeacher = $resourceTeacher;
         $this->teacherFactory = $teacherFactory;
+        $this->teacherCollectionFactory = $teacherCollectionFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
+        $this->collectionProcessor = $collectionProcessor;
     }
 
     /**
@@ -94,5 +122,27 @@ class TeacherRepository implements TeacherRepositoryInterface
     public function deleteById($teacherId)
     {
         return $this->delete($this->getById($teacherId));
+    }
+
+    /**
+     * Retrieve students matching the specified criteria.
+     *
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return TeacherSearchResultsInterface
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria)
+    {
+        /** @var Collection $collection */
+        $collection = $this->teacherCollectionFactory->create();
+
+        $this->collectionProcessor->process($searchCriteria, $collection);
+
+        /** @var Data\TeacherSearchResultsInterface $searchResults */
+        $searchResults = $this->searchResultsFactory->create();
+        $searchResults->setSearchCriteria($searchCriteria);
+        $searchResults->setItems($collection->getItems());
+        $searchResults->setTotalCount($collection->getSize());
+
+        return $searchResults;
     }
 }

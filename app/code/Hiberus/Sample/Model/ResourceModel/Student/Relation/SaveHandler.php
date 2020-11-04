@@ -45,7 +45,6 @@ class SaveHandler implements ExtensionInterface
     public function execute($entity, $arguments = [])
     {
         $entityMetadata = $this->metadataPool->getMetadata(StudentInterface::class);
-        $linkField = $entityMetadata->getLinkField();
 
         $connection = $entityMetadata->getEntityConnection();
 
@@ -57,7 +56,7 @@ class SaveHandler implements ExtensionInterface
         $delete = array_diff($oldTeachers, $newTeacher);
         if ($delete) {
             $where = [
-                $linkField . ' = ?' => $entity->getId(),
+                'student_id = ?' => $entity->getId(),
                 'teacher_id IN (?)' => $delete,
             ];
             $connection->delete($table, $where);
@@ -68,7 +67,7 @@ class SaveHandler implements ExtensionInterface
             $data = [];
             foreach ($insert as $teacherId) {
                 $data[] = [
-                    $linkField => $entity->getId(),
+                    'student_id' => $entity->getId(),
                     'teacher_id' => (int)$teacherId
                 ];
             }

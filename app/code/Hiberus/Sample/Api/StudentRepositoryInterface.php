@@ -3,6 +3,9 @@
 namespace Hiberus\Sample\Api;
 
 use Hiberus\Sample\Api\Data\StudentInterface;
+use Hiberus\Sample\Api\Data\StudentSearchResultsInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Interface StudentRepositoryInterface
@@ -25,6 +28,15 @@ interface StudentRepositoryInterface
      * @return StudentInterface
      */
     public function getById($studentId);
+
+    /**
+     * Retrieve students matching the specified criteria.
+     *
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return StudentSearchResultsInterface
+     * @throws LocalizedException
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete a Student

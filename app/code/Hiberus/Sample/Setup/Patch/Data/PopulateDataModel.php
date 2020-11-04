@@ -48,11 +48,6 @@ class PopulateDataModel implements DataPatchInterface
     private $curlFactory;
 
     /**
-     * @var array
-     */
-    private $storedTeachers;
-
-    /**
      * PopulateDataModel constructor.
      * @param StudentRepositoryInterface $studentRepository
      * @param StudentInterfaceFactory $studentFactory
@@ -106,11 +101,9 @@ class PopulateDataModel implements DataPatchInterface
                 ->setBirthData($teacherData['birth_data'])
             ;
 
-            $teacherSaved = $this->teacherRepository->save(
+            $this->teacherRepository->save(
                 $teacher
             );
-
-            $this->storedTeachers[] = $teacherSaved->getId();
         }
     }
 
@@ -127,21 +120,12 @@ class PopulateDataModel implements DataPatchInterface
 
             $student->setName($studentData['name'])
                 ->setBirthData($studentData['birth_data'])
-                ->setTeacherIds($this->getRandomTeachers())
             ;
 
             $this->studentRepository->save(
                 $student
             );
         }
-    }
-
-    /**
-     * @return array
-     */
-    private function getRandomTeachers()
-    {
-        return array_rand(array_flip($this->storedTeachers), rand(1, self::NUMBER_OF_TEACHERS));
     }
 
     /**
