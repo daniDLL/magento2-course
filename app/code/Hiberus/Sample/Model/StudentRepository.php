@@ -8,6 +8,7 @@ use Hiberus\Sample\Model\ResourceModel\Student\Collection;
 use Hiberus\Sample\Model\ResourceModel\Student\CollectionFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -47,24 +48,32 @@ class StudentRepository implements StudentRepositoryInterface
     private $collectionProcessor;
 
     /**
+     * @var ManagerInterface
+     */
+    private $eventManager;
+
+    /**
      * @param \Hiberus\Sample\Model\ResourceModel\Student $resourceStudent
      * @param StudentInterfaceFactory $studentFactory
      * @param CollectionFactory $studentCollectionFactory
      * @param Data\StudentSearchResultsInterfaceFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
+     * @param ManagerInterface $eventManager
      */
     function __construct(
         ResourceModel\Student $resourceStudent,
         StudentInterfaceFactory $studentFactory,
         CollectionFactory $studentCollectionFactory,
         Data\StudentSearchResultsInterfaceFactory $searchResultsFactory,
-        CollectionProcessorInterface $collectionProcessor
+        CollectionProcessorInterface $collectionProcessor,
+        ManagerInterface $eventManager
     ) {
         $this->resourceStudent = $resourceStudent;
         $this->studentFactory = $studentFactory;
         $this->studentCollectionFactory = $studentCollectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->collectionProcessor = $collectionProcessor;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -143,6 +152,13 @@ class StudentRepository implements StudentRepositoryInterface
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
+
+        $this->eventManager->dispatch(
+            'hiberus_sample_student_repository_get_list_after',
+            [
+                'search_results' => $searchResults
+            ]
+        );
 
         return $searchResults;
     }
