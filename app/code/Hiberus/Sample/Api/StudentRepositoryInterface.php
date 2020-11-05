@@ -33,7 +33,7 @@ interface StudentRepositoryInterface
      * Retrieve students matching the specified criteria.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return StudentSearchResultsInterface
+     * @return \Hiberus\Sample\Api\Data\StudentSearchResultsInterface
      * @throws LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria);

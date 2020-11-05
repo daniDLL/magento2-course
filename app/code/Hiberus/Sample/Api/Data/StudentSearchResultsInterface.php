@@ -13,15 +13,15 @@ interface StudentSearchResultsInterface extends SearchResultsInterface
     /**
      * Get student list.
      *
-     * @return StudentInterface[]
+     * @return \Hiberus\Sample\Api\Data\StudentInterface[]
      */
     public function getItems();
 
     /**
      * Set student list.
      *
-     * @param StudentInterface[] $items
-     * @return $this
+     * @param \Hiberus\Sample\Api\Data\StudentInterface[] $items
+     * @return \Hiberus\Sample\Api\Data\StudentSearchResultsInterface
      */
     public function setItems(array $items);
 }

@@ -59,13 +59,13 @@ interface StudentInterface
     public function setBirthData($birthData);
 
     /**
-     * @param array|null $teacherIds
+     * @param mixed[]|null $teacherIds
      * @return $this
      */
     public function setTeacherIds($teacherIds);
 
     /**
-     * @return array|null
+     * @return mixed[]|null
      */
     public function getTeacherIds();
 }
