@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <container name="custom.contact.container" htmlTag="div" htmlClass="wrapper">
+                <block class="Magento\Newsletter\Block\Subscribe" name="contact.form.subscribe" template="Magento_Newsletter::subscribe.phtml" ifconfig="newsletter/general/active"/>
+            </container>
+        </referenceContainer>            
+        <move element="contactForm" destination="custom.contact.container" after="-" />
+    </body>
+</page>
