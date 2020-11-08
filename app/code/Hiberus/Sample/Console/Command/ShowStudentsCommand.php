@@ -11,6 +11,7 @@ use Hiberus\Sample\Api\Data\StudentInterface;
 use Hiberus\Sample\Api\StudentRepositoryInterface;
 use Hiberus\Sample\Console\Command\Input\ShowStudents\ListInputValidator;
 use Hiberus\Sample\Console\Command\Options\ShowStudents\ListOptions;
+use Hiberus\Sample\Helper\FastLoading;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
@@ -50,11 +51,17 @@ class ShowStudentsCommand extends Command
     private $studentRepository;
 
     /**
+     * @var FastLoading
+     */
+    private $fastLoading;
+
+    /**
      * ShowStudentsCommand constructor.
      * @param ListInputValidator $validator
      * @param ListOptions $listOptions
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param StudentRepositoryInterface $studentRepository
+     * @param FastLoading $fastLoading
      * @param string|null $name
      */
     public function __construct(
@@ -62,12 +69,14 @@ class ShowStudentsCommand extends Command
         ListOptions $listOptions,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         StudentRepositoryInterface $studentRepository,
+        FastLoading $fastLoading,
         string $name = null
     ) {
         $this->validator = $validator;
         $this->listOptions = $listOptions;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->studentRepository = $studentRepository;
+        $this->fastLoading = $fastLoading;
 
         parent::__construct($name);
     }
@@ -95,6 +104,8 @@ class ShowStudentsCommand extends Command
         $time = microtime(true);
 
         $this->initFormatter($output);
+
+        $output->writeln($this->fastLoading->getSlowValue());
 
         $this->process($input, $output);
 

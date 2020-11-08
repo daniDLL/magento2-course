@@ -80,4 +80,10 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Hiberus\Sample\Helper\FastLoading">
+        <arguments>
+            <argument name="slowLoading" xsi:type="object">Hiberus\Sample\Helper\SlowLoading\Proxy</argument>
+        </arguments>
+    </type>
 </config>
