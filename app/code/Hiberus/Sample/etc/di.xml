@@ -73,6 +73,7 @@
         </arguments>
     </type>
 
+    <!-- Command -->
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -81,9 +82,31 @@
         </arguments>
     </type>
 
+    <!-- Proxy -->
     <type name="Hiberus\Sample\Helper\FastLoading">
         <arguments>
             <argument name="slowLoading" xsi:type="object">Hiberus\Sample\Helper\SlowLoading\Proxy</argument>
+        </arguments>
+    </type>
+
+    <!-- Logger -->
+    <virtualType name="Hiberus\Sample\Logger\SampleDebug" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/hiberus_sample.log</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Hiberus\Sample\Logger\Monolog" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Hiberus\Sample\Logger\SampleDebug</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Hiberus\Sample\Logger\SampleLogger">
+        <arguments>
+            <argument name="logger" xsi:type="object">Hiberus\Sample\Logger\Monolog</argument>
         </arguments>
     </type>
 </config>
