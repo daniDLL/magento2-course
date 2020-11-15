@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Hiberus_Sample::sample" title="Hiberus" translate="title" module="Hiberus_Sample" sortOrder="999" resource="Hiberus_Sample::sample"/>
+        <add id="Hiberus_Sample::sample_config" title="Configuration" translate="title" module="Hiberus_Sample" sortOrder="10" parent="Hiberus_Sample::sample" action="admin/system_config/edit/section/hiberus_sample/" resource="Hiberus_Sample::config"/>
+    </menu>
+</config>

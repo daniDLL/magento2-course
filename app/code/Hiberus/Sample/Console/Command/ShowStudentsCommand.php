@@ -11,6 +11,7 @@ use Hiberus\Sample\Api\Data\StudentInterface;
 use Hiberus\Sample\Api\StudentRepositoryInterface;
 use Hiberus\Sample\Console\Command\Input\ShowStudents\ListInputValidator;
 use Hiberus\Sample\Console\Command\Options\ShowStudents\ListOptions;
+use Hiberus\Sample\Helper\Config;
 use Hiberus\Sample\Helper\FastLoading;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Console\Cli;
@@ -56,12 +57,18 @@ class ShowStudentsCommand extends Command
     private $fastLoading;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * ShowStudentsCommand constructor.
      * @param ListInputValidator $validator
      * @param ListOptions $listOptions
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param StudentRepositoryInterface $studentRepository
      * @param FastLoading $fastLoading
+     * @param Config $config
      * @param string|null $name
      */
     public function __construct(
@@ -70,6 +77,7 @@ class ShowStudentsCommand extends Command
         SearchCriteriaBuilder $searchCriteriaBuilder,
         StudentRepositoryInterface $studentRepository,
         FastLoading $fastLoading,
+        Config $config,
         string $name = null
     ) {
         $this->validator = $validator;
@@ -77,6 +85,7 @@ class ShowStudentsCommand extends Command
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->studentRepository = $studentRepository;
         $this->fastLoading = $fastLoading;
+        $this->config = $config;
 
         parent::__construct($name);
     }
@@ -103,13 +112,15 @@ class ShowStudentsCommand extends Command
     {
         $time = microtime(true);
 
-        $this->initFormatter($output);
+        if($this->config->isEnabled()) {
+            $this->initFormatter($output);
 
-        $output->writeln($this->fastLoading->getSlowValue());
+            $output->writeln($this->fastLoading->getSlowValue());
 
-        $this->process($input, $output);
+            $this->process($input, $output);
 
-        $output->writeln('Execution time: ' . (microtime(true) - $time));
+            $output->writeln('Execution time: ' . (microtime(true) - $time));
+        }
 
         return Cli::RETURN_SUCCESS;
     }
