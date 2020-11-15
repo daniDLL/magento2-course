@@ -1,0 +1,17 @@
+<?php /** @var \Hiberus\Test\Block\SimpleProducts\ProductList $block */ ?>
+<ul>
+<?php foreach ($block->getSimpleProducts(10) as $product): ?>
+    <li>
+        <span><?= $escaper->escapeHtml($product) ?></span>
+        <input type="number" class="input" value="0" />
+        <input type="button" class="addbutton" value="+" />
+    </li>
+<?php endforeach; ?>
+</ul>
+<script type="text/x-magento-init">
+{
+     ".addbutton": {
+          "Hiberus_Test/js/simpleproducts-add": {}
+     }
+}
+</script>
