@@ -1,0 +1,9 @@
+<?php /** @var \Hiberus\Test\Block\LastProducts\ProductList $block */ ?>
+
+<ul>
+<?php foreach ($block->getLastProducts(10) as $productName): ?>
+    <li>
+        <span><?= $escaper->escapeHtml($productName) ?></span>
+    </li>
+<?php endforeach; ?>
+</ul>
