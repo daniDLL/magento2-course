@@ -1,0 +1,16 @@
+.paragraph(@padding, @margin, @background){
+    padding: @padding;
+    margin: @margin;
+    background: @background;
+}
+
+& when (@media-common = true) {
+    p{
+        .paragraph(10px, 10px, #DDD);
+    }
+}
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    p{
+        .paragraph(10px, 10px, #B1D8F1);
+    }
+}
