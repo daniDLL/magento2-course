@@ -50,7 +50,7 @@ class Student extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('hiberus_student', StudentInterface::ID);
+        $this->_init(StudentInterface::TABLE, StudentInterface::ID);
     }
 
     /**
