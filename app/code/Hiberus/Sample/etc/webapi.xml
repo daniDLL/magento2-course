@@ -12,4 +12,10 @@
             <resource ref="Hiberus_Sample::student"/>
         </resources>
     </route>
+    <route url="/V1/sample/students/:studentId" method="DELETE">
+        <service class="Hiberus\Sample\Api\StudentRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>

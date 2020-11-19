@@ -42,7 +42,7 @@ interface StudentRepositoryInterface
      * Delete a Student
      *
      * @param \Hiberus\Sample\Api\Data\StudentInterface $student
-     * @return bool
+     * @return \Hiberus\Sample\Api\Data\StudentInterface
      */
     public function delete(\Hiberus\Sample\Api\Data\StudentInterface $student);
 
@@ -50,7 +50,7 @@ interface StudentRepositoryInterface
      * Delete a Student by an Id
      *
      * @param int $studentId
-     * @return bool
+     * @return \Hiberus\Sample\Api\Data\StudentInterface
      */
     public function deleteById($studentId);
 }
