@@ -16,16 +16,16 @@ interface StudentRepositoryInterface
     /**
      * Save a Student
      *
-     * @param StudentInterface $student
-     * @return StudentInterface
+     * @param \Hiberus\Sample\Api\Data\StudentInterface $student
+     * @return \Hiberus\Sample\Api\Data\StudentInterface
      */
-    public function save(Data\StudentInterface $student);
+    public function save(\Hiberus\Sample\Api\Data\StudentInterface $student);
 
     /**
      * Get Student by an Id
      *
      * @param int $studentId
-     * @return StudentInterface
+     * @return \Hiberus\Sample\Api\Data\StudentInterface
      */
     public function getById($studentId);
 
@@ -34,17 +34,17 @@ interface StudentRepositoryInterface
      *
      * @param SearchCriteriaInterface $searchCriteria
      * @return \Hiberus\Sample\Api\Data\StudentSearchResultsInterface
-     * @throws LocalizedException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete a Student
      *
-     * @param StudentInterface $student
+     * @param \Hiberus\Sample\Api\Data\StudentInterface $student
      * @return bool
      */
-    public function delete(Data\StudentInterface $student);
+    public function delete(\Hiberus\Sample\Api\Data\StudentInterface $student);
 
     /**
      * Delete a Student by an Id
