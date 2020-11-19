@@ -6,4 +6,10 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+    <route url="/V1/sample/students" method="POST">
+        <service class="Hiberus\Sample\Api\StudentRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Hiberus_Sample::student"/>
+        </resources>
+    </route>
 </routes>
