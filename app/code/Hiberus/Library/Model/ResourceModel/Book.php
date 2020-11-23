@@ -1,6 +1,11 @@
 <?php
+/**
+ * @author: daniDLL
+ * Date: 18/11/20
+ * Time: 20:36
+ */
 
-namespace Hiberus\Sample\Model\ResourceModel;
+namespace Hiberus\Library\Model\ResourceModel;
 
 use Exception;
 use Magento\Framework\EntityManager\EntityManager;
@@ -9,13 +14,13 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
-use Hiberus\Sample\Api\Data\StudentInterface;
+use Hiberus\Library\Api\Data\BookInterface;
 
 /**
- * Class Student
- * @package Hiberus\Sample\Model\ResourceModel
+ * Class Book
+ * @package Hiberus\Library\Model\ResourceModel
  */
-class Student extends AbstractDb
+class Book extends AbstractDb
 {
     /**
      * @var MetadataPool
@@ -38,8 +43,7 @@ class Student extends AbstractDb
         MetadataPool $metadataPool,
         EntityManager $entityManager,
         $connectionName = null
-    )
-    {
+    ) {
         $this->metadataPool = $metadataPool;
         $this->entityManager = $entityManager;
         parent::__construct($context, $connectionName);
@@ -50,34 +54,34 @@ class Student extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init(StudentInterface::TABLE, StudentInterface::ID);
+        $this->_init(BookInterface::TABLE, BookInterface::ID);
     }
 
     /**
-     * Get all Teacher IDs for a student
+     * Get all Author IDs for a book
      *
-     * @param int $studentId
+     * @param int $bookId
      * @return array
      * @throws LocalizedException
      * @throws Exception
      */
-    public function lookupTeacherIds($studentId)
+    public function lookupAuthorIds($bookId)
     {
         $connection = $this->getConnection();
 
-        $entityMetadata = $this->metadataPool->getMetadata(StudentInterface::class);
+        $entityMetadata = $this->metadataPool->getMetadata(BookInterface::class);
         $linkField = $entityMetadata->getLinkField();
 
         $select = $connection->select()
-            ->from(['ts' => $this->getTable('hiberus_teacher_student')], 'teacher_id')
+            ->from(['hba' => $this->getTable('hiberus_book_author')], 'author_id')
             ->join(
-                ['stud' => $this->getMainTable()],
-                'stud.' . $linkField . ' = ts.' . $linkField,
+                ['book' => $this->getMainTable()],
+                'book.' . $linkField . ' = hba.' . $linkField,
                 []
             )
-            ->where('ts.' . $entityMetadata->getIdentifierField() . ' = :student_id');
+            ->where('hba.' . $entityMetadata->getIdentifierField() . ' = :book_id');
 
-        return $connection->fetchCol($select, ['student_id' => (int)$studentId]);
+        return $connection->fetchCol($select, ['book_id' => (int)$bookId]);
     }
 
     /**
