@@ -158,6 +158,7 @@ class ShowStudentsCommand extends Command
     private function getStudentList()
     {
         $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchCriteria->setPageSize($this->config->getMultiplier());
 
         $studentResults = $this->studentRepository->getList($searchCriteria)->getItems();
 

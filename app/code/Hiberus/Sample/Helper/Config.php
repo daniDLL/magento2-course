@@ -16,6 +16,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 class Config extends AbstractHelper
 {
     const   XML_PATH_ENABLE =   'hiberus_sample/general_config/enable';
+    const   XML_PATH_MULTIPLIER =   'hiberus_sample/general_config/multiplier';
 
     /**
      * @return mixed
@@ -24,6 +25,16 @@ class Config extends AbstractHelper
     {
         return $this->scopeConfig->getValue(
             self::XML_PATH_ENABLE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMultiplier()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_MULTIPLIER
         );
     }
 }

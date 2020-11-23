@@ -4,6 +4,7 @@
         <hiberus_sample>
             <general_config>
                 <enable>1</enable>
+                <multiplier>4</multiplier>
             </general_config>
         </hiberus_sample>
     </default>

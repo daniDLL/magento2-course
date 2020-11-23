@@ -8,12 +8,15 @@
             <label>Sample Configuration</label>
             <tab>hiberus_tab</tab>
             <resource>Hiberus_Sample::config</resource>
-            <group id="general_config" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <group id="general_config" translate="label" type="text" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Config Label</label>
                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" canRestore="1">
+                <field id="enable" translate="label" type="select" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="multiplier" translate="label" type="text" sortOrder="2"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multiplier</label>
                 </field>
             </group>
         </section>
