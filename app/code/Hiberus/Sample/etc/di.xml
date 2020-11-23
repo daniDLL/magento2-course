@@ -92,7 +92,7 @@
     <!-- Logger -->
     <virtualType name="Hiberus\Sample\Logger\SampleDebug" type="Magento\Framework\Logger\Handler\Base">
         <arguments>
-            <argument name="fileName" xsi:type="string">/var/log/hiberus_sample.log</argument>
+            <argument name="fileName" xsi:type="string">/var/log/hiberus_sample_daniel.log</argument>
         </arguments>
     </virtualType>
 
@@ -104,7 +104,7 @@
         </arguments>
     </virtualType>
 
-    <type name="Hiberus\Sample\Logger\SampleLogger">
+    <type name="Hiberus\Sample\Cron\Test">
         <arguments>
             <argument name="logger" xsi:type="object">Hiberus\Sample\Logger\Monolog</argument>
         </arguments>

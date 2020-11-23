@@ -7,7 +7,7 @@
 
 namespace Hiberus\Sample\Cron;
 
-use Hiberus\Sample\Logger\SampleLogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Test
@@ -16,16 +16,16 @@ use Hiberus\Sample\Logger\SampleLogger;
 class Test
 {
     /**
-     * @var SampleLogger
+     * @var LoggerInterface
      */
     protected $logger;
 
     /**
      * Test constructor.
-     * @param SampleLogger $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        SampleLogger $logger
+        LoggerInterface $logger
     ) {
         $this->logger = $logger;
     }
