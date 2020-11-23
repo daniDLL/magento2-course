@@ -8,9 +8,13 @@ namespace Hiberus\Sample\Api\Data;
  */
 interface StudentInterface
 {
+    const TABLE = 'hiberus_student';
+
     const ID = 'entity_id';
     const NAME = 'name';
     const BIRTH_DATA = 'birth_data';
+
+
     const TEACHER_IDS = 'teacher_ids';
 
     /**

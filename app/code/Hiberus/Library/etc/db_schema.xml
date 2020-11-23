@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="hiberus_book" resource="default" engine="innodb" comment="Hiberus Book Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="varchar" name="title" length="255" nullable="false" comment="Title"/>
+        <column xsi:type="varchar" name="publish_date" length="32" nullable="true" comment="Publish Date"/>
+        <column xsi:type="float" name="rating" scale="4" precision="12" nullable="true" comment="Rating"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="hiberus_author" resource="default" engine="innodb" comment="Hiberus Author Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="varchar" name="name" length="255"  nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="birth_data" length="32" nullable="true" comment="Age"/>
+        <column xsi:type="varchar" name="birth_city" length="64" nullable="true" comment="City"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="hiberus_book_author" resource="default" engine="innodb" comment="Hiberus Book/Author Relation">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="int" name="book_id" padding="10" unsigned="true" nullable="false" comment="Book ID"/>
+        <column xsi:type="int" name="author_id" padding="10" unsigned="true" nullable="false" comment="Author ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="HBA_BOOK_ID_REF_HB_ENTITY_ID"
+                    table="hiberus_book_author" column="book_id"
+                    referenceTable="hiberus_book" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="HBA_AUTHOR_ID_REF_HA_ENTITY_ID"
+                    table="hiberus_book_author" column="author_id"
+                    referenceTable="hiberus_author" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="HBA_UNIQUE_INDEX">
+            <column name="book_id"/>
+            <column name="author_id"/>
+        </constraint>
+    </table>
+</schema>
